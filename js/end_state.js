@@ -1,4 +1,5 @@
 KodingGame.endState = function(game){
+  
   this.backdrop;
 }
 
