@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="30" tilewidth="16" tileheight="16" nextobjectid="53">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="40" tilewidth="16" tileheight="16" nextobjectid="61">
  <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="3520" columns="44">
   <image source="../tiles.png" trans="ff00ff" width="705" height="1280"/>
  </tileset>
  <tileset firstgid="3521" name="player" tilewidth="16" tileheight="16" tilecount="375" columns="25">
   <image source="../player.png" trans="ff00ff" width="402" height="243"/>
  </tileset>
- <layer name="backgroundLayer" width="20" height="30">
+ <layer name="backgroundLayer" width="20" height="40">
   <data encoding="csv">
 399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,
 399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,399,
@@ -37,10 +37,20 @@
 224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,
 224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,
 224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,
-224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224
+180,224,180,224,224,224,224,224,224,224,224,2247,224,224,224,224,224,224,224,224,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,
+1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277,1277
 </data>
  </layer>
- <layer name="blockedLayer" width="20" height="30">
+ <layer name="blockedLayer" width="20" height="40">
   <data encoding="csv">
 0,0,666,0,0,0,0,1058,0,0,0,0,0,0,0,0,1149,1149,1149,1149,
 0,0,666,0,0,0,0,1058,0,0,0,0,0,0,0,0,1193,1193,1193,1193,
@@ -58,7 +68,7 @@
 0,1061,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,227,
 1061,1061,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,227,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,227,
-0,0,0,0,0,0,0,0,618,0,0,0,0,0,1061,1809,1809,0,0,227,
+0,0,0,0,0,0,0,0,618,0,0,0,0,0,1061,1809,0,0,0,227,
 0,0,0,0,0,0,0,0,618,0,0,0,0,0,1061,0,0,0,0,227,
 1061,1061,1061,1061,1061,1061,1061,1061,1061,0,0,0,0,0,1061,0,0,0,0,227,
 0,0,0,0,0,0,0,0,1809,0,0,0,0,0,1061,1813,1813,1813,1061,0,
@@ -66,12 +76,22 @@
 0,0,0,0,0,0,0,0,1809,0,0,0,0,0,0,0,0,0,1061,0,
 0,0,0,0,0,0,0,0,1809,0,0,0,0,0,0,0,0,0,1061,0,
 0,0,0,0,0,0,0,0,1809,0,0,0,0,0,0,0,0,0,1061,0,
-0,0,0,1061,0,0,0,0,1809,0,0,0,0,0,1061,0,0,0,1061,0,
-0,0,0,1061,0,0,0,0,1809,0,0,0,0,0,1061,0,0,0,1061,1061,
+0,0,0,1061,0,0,0,0,0,0,0,0,0,0,1061,0,0,0,1061,0,
+0,0,0,1061,0,0,0,0,0,0,0,0,0,0,1061,0,0,0,1061,1061,
 0,0,0,1061,0,0,0,0,0,0,0,0,0,0,1061,0,0,0,0,227,
 0,0,0,1061,0,0,0,0,0,0,0,0,0,0,1061,0,0,0,0,227,
 0,0,0,1983,0,0,0,0,0,0,0,0,0,0,1061,0,0,0,0,227,
-227,227,227,227,227,227,227,227,227,227,227,227,227,227,1061,227,227,227,227,227
+0,0,0,227,227,227,227,227,227,227,227,227,227,227,1061,227,227,227,227,227,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+575,575,575,575,575,575,575,0,0,0,0,0,1896,1896,1896,1896,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,1896,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,1896,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,1896,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,1896,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,1896,0,0,0,0,0,0,0
 </data>
  </layer>
  <objectgroup name="objectsLayer">
@@ -81,25 +101,25 @@
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="7" gid="794" x="89" y="425" width="16" height="16">
+  <object id="7" gid="794" x="129" y="427" width="16" height="16">
    <properties>
     <property name="sprite" value="question_mark"/>
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="8" gid="794" x="85" y="131" width="16" height="16">
+  <object id="8" gid="794" x="122" y="132" width="16" height="16">
    <properties>
     <property name="sprite" value="question_mark"/>
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="9" gid="794" x="256" y="409" width="16" height="16">
+  <object id="9" gid="794" x="256" y="387" width="16" height="16">
    <properties>
     <property name="sprite" value="question_mark"/>
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="13" gid="794" x="58" y="266" width="16" height="16">
+  <object id="13" gid="794" x="85" y="243" width="16" height="16">
    <properties>
     <property name="sprite" value="question_mark"/>
     <property name="type" value="item"/>
@@ -111,31 +131,31 @@
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="16" gid="838" x="280" y="463" width="16" height="16">
+  <object id="16" gid="838" x="267" y="449" width="16" height="16">
    <properties>
     <property name="sprite" value="star"/>
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="19" gid="838" x="75" y="349" width="16" height="16">
+  <object id="19" gid="838" x="77" y="349" width="16" height="16">
    <properties>
     <property name="sprite" value="star"/>
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="20" gid="838" x="17" y="144" width="16" height="16">
+  <object id="20" gid="838" x="43" y="137" width="16" height="16">
    <properties>
     <property name="sprite" value="star"/>
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="25" gid="838" x="284" y="286" width="16" height="16">
+  <object id="25" gid="838" x="269" y="284" width="16" height="16">
    <properties>
     <property name="sprite" value="star"/>
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="26" gid="838" x="31" y="274" width="16" height="16">
+  <object id="26" gid="838" x="50" y="263" width="16" height="16">
    <properties>
     <property name="type" value="item"/>
    </properties>
@@ -146,28 +166,43 @@
     <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="34" gid="496" x="98" y="17" width="16" height="16">
+  <object id="42" gid="452" x="66" y="4" width="16" height="16">
    <properties>
-    <property name="type" value="door"/>
-   </properties>
-  </object>
-  <object id="35" gid="495" x="48" y="17" width="16" height="16">
-   <properties>
-    <property name="type" value="door"/>
-   </properties>
-  </object>
-  <object id="41" gid="452" x="83" y="19" width="16" height="16">
-   <properties>
+    <property name="sprite" value="door"/>
     <property name="targetTileMap" value="finishGame"/>
     <property name="type" value="door"/>
    </properties>
   </object>
-  <object id="42" gid="452" x="62" y="18" width="16" height="16">
+  <object id="50" gid="1015" x="17" y="606" width="16" height="16"/>
+  <object id="53" gid="838" x="227" y="606" width="16" height="16">
    <properties>
-    <property name="targetTileMap" value="finishGame"/>
-    <property name="type" value="door"/>
+    <property name="sprite" value="star"/>
+    <property name="type" value="item"/>
    </properties>
   </object>
-  <object id="50" gid="1015" x="14" y="480" width="16" height="16"/>
+  <object id="54" gid="794" x="223" y="521" width="16" height="16">
+   <properties>
+    <property name="sprite" value="question_mark"/>
+    <property name="type" value="item"/>
+   </properties>
+  </object>
+  <object id="55" gid="843" x="177" y="307" width="16" height="16">
+   <properties>
+    <property name="sprite" value="first_aid_box"/>
+    <property name="type" value="first_aid_box"/>
+   </properties>
+  </object>
+  <object id="58" gid="843" x="274" y="575" width="16" height="16">
+   <properties>
+    <property name="sprite" value="first_aid_box"/>
+    <property name="type" value="first_aid_box"/>
+   </properties>
+  </object>
+  <object id="60" gid="843" x="35" y="517" width="16" height="16">
+   <properties>
+    <property name="sprite" value="first_aid_box"/>
+    <property name="type" value="first_aid_box"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
