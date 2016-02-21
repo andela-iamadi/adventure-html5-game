@@ -24,6 +24,7 @@ KodingGame.gameState = function(game){
   this.askedQuestions = [];
   this.currQuestionIndex;
 }
+var pauseText = {}
 
 KodingGame.gameState.prototype = {
   init: function() {
@@ -70,9 +71,9 @@ KodingGame.gameState.prototype = {
     this.createStars();
     this.createFirstAidBoxes();
     this.initAudio();
-    this.pauseButton = game.add.button(gameProperties.screenWidth - 100, gameProperties.screenHeight - 100, assets.pauseButton.name,  this.pauseClickAction, this)
+    this.pauseButton = game.add.button(game.width - 50, 5, assets.pauseButton.name,  this.pauseClickAction, this)
     this.pauseButton.scale.set(0.3, 0.3);
-    this.pauseButton.anchor.setTo(1, 1);
+    this.pauseButton.fixedToCamera = true;
     this.initVars();
   },
 
@@ -92,8 +93,7 @@ KodingGame.gameState.prototype = {
 
   pauseClickAction: function() {
     game.paused = true;
-    choiseLabel = game.add.text(game.world.centerX, game.world.centerY, 'Click outside menu to continue', { font: '14px Arial', fill: '#fff' });
-    choiseLabel.anchor.setTo(0.5, 0.5);
+    pauseText = this.annoucementText("Game paused. Click Anywhere to continue", "#fff")
     // game.state.start(gameStates.paused)
   },
 
@@ -218,7 +218,6 @@ KodingGame.gameState.prototype = {
 
  findObjectsByType: function(spriteType, map, layer) {
    var result = new Array();
-   debugger;
    map.objects[layer].forEach(function(element){
      if(element.properties.sprite === spriteType) {
        element.y -= map.tileHeight;
@@ -242,7 +241,7 @@ KodingGame.gameState.prototype = {
   },
 
   collect: function(player, star){
-    var bonusText = this.announcementText("Bonus points: +5!!", "#F5F10D")
+    var bonusText = this.annoucementText("Bonus points: +5!!", "#F5F10D")
     this.starsCount++;
     this.score += 5
     this.updateGameStat();
@@ -335,6 +334,7 @@ KodingGame.gameState.prototype = {
   unpause: function(){
     if (game.paused) {
       game.paused = false;
+      if (pauseText.alive) { pauseText.kill(); }
     }
   },
 
@@ -348,8 +348,6 @@ KodingGame.gameState.prototype = {
 
   clickAnswer: function(text) {
     var index = this.currQuestionIndex;
-    console.log(text.name);
-    console.log(this.correctAnswer);
     var responseText, color;
     var correct = text.name === this.correctAnswer;
     if (correct) {
@@ -361,7 +359,7 @@ KodingGame.gameState.prototype = {
       game.state.start(gameStates.over)
     }
     this.showAnswerSummary(this.correctAnswer, data[index].answer_summary, correct);
-    userCorrect = this.announcementText(responseText, color)
+    userCorrect = this.annoucementText(responseText, color)
     setTimeout(this.killObject, 2000, userCorrect);
 
     this.displayedQuestion.kill();
@@ -397,8 +395,15 @@ KodingGame.gameState.prototype = {
     this.askedQuestions = [];
   },
 
-  announcementText: function(responseText, color) {
-    return game.add.text((game.width /2) - 100, game.height / 2, responseText, { font: '30px sans-serif', fill: color, backgroundColor: 'rgba(0,0,0,0.8)', width: '200', align: 'center', wordWrap: 'true', wordWrapWidth: '200', boundsAlignV: 'middle' });
+  annoucementText: function(responseText, color) {
+    var text = game.add.text((game.width /2) - 100, game.height / 2, responseText, { font: '30px sans-serif', fill: color, backgroundColor: 'rgba(0,0,0,0.8)', width: '200', align: 'center', wordWrap: 'true', wordWrapWidth: '200', boundsAlignV: 'middle' });
+    text.align = 'center';
+    text.padding.set(16, 10, 75)
+    text.stroke = '#000000';
+    text.strokeThickness = 2;
+    text.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
+
+    return text;
   }
 
 }
