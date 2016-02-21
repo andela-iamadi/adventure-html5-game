@@ -7,7 +7,7 @@ KodingGame.gameState = function(game){
   this.backgroundlayer;
   this.blockedLayer;
   this.items;
-  this.questions;
+  this.bugs;
   this.stars;
   this.firstAidBoxes;
   this.door;
@@ -16,6 +16,13 @@ KodingGame.gameState = function(game){
   this.frame = 0;
   this.score = 0;
   this.starsCount = 0;
+  this.correctAnswer = "";
+  this.options = [];
+  this.displayedQuestion = {};
+  this.currentBug = {};
+  this.dataMap = Object.keys(data);
+  this.askedQuestions = [];
+  this.currQuestionIndex;
 }
 
 KodingGame.gameState.prototype = {
@@ -34,7 +41,7 @@ KodingGame.gameState.prototype = {
     game.load.spritesheet(assets.door.name, assets.door.url, 34, 60);
     game.load.audio(assets.soundEffects.name, assets.soundEffects.files);
     game.load.audio(assets.music.name, assets.music.files);
-    this.showHelpText();
+    // game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   },
 
   create: function(){
@@ -59,18 +66,19 @@ KodingGame.gameState.prototype = {
     this.backgroundlayer.resizeWorld();
     this.createDoor();
     this.initPlayer();
-    this.createQuestions();
+    this.createBugs();
     this.createStars();
     this.createFirstAidBoxes();
     this.initAudio();
     this.pauseButton = game.add.button(gameProperties.screenWidth - 100, gameProperties.screenHeight - 100, assets.pauseButton.name,  this.pauseClickAction, this)
-    this.pauseButton.scale.set(0.2, 0.2);
-    this.pauseButton.anchor.setTo(1, 1)
+    this.pauseButton.scale.set(0.3, 0.3);
+    this.pauseButton.anchor.setTo(1, 1);
+    this.initVars();
   },
 
   update: function(){
     game.physics.arcade.collide(this.player, this.blockedLayer);
-    game.physics.arcade.collide(this.player, this.questions, this.askQuestion, null, this);
+    game.physics.arcade.collide(this.player, this.bugs, this.askQuestion, null, this);
     game.physics.arcade.overlap(this.player, this.stars, this.collect, null, this);
     game.physics.arcade.overlap(this.player, this.firstAidBoxes, this.collect, null, this);
     game.physics.arcade.overlap(this.player, this.door, this.finishGame, null, this);
@@ -84,7 +92,7 @@ KodingGame.gameState.prototype = {
 
   pauseClickAction: function() {
     game.paused = true;
-    choiseLabel = game.add.text(game.world.centerX, game.world.centerY, 'Click outside menu to continue', { font: '30px Arial', fill: '#fff' });
+    choiseLabel = game.add.text(game.world.centerX, game.world.centerY, 'Click outside menu to continue', { font: '14px Arial', fill: '#fff' });
     choiseLabel.anchor.setTo(0.5, 0.5);
     // game.state.start(gameStates.paused)
   },
@@ -114,17 +122,17 @@ KodingGame.gameState.prototype = {
     this.music.play();
   },
 
-  createQuestions: function() {
+  createBugs: function() {
     //create items
-    this.questions = game.add.group();
-    this.questions.enableBody = true;
-    var question;
+    this.bugs = game.add.group();
+    this.bugs.enableBody = true;
+    var bug;
     result = this.findObjectsByType('question_mark', this.map, 'objectsLayer');
     result.forEach(function(element){
-      question = this.createFromTiledObject(element, this.questions);
-      question.body.immovable = true;
-      question.animations.add('walk', [0,1,2,3], 1, true);
-      setTimeout(this.startWalking, parseInt(1000 + Math.random() * 5000), question)
+      bug = this.createFromTiledObject(element, this.bugs);
+      bug.body.immovable = true;
+      bug.animations.add('walk', [0,1,2,3], 1, true);
+      setTimeout(this.startWalking, parseInt(1000 + Math.random() * 5000), bug)
     }, this);
   },
 
@@ -193,10 +201,6 @@ KodingGame.gameState.prototype = {
    this.player.body.velocity.x = 70;
    this.frame = 36
    this.player.animations.play('right')
-   if (this.player.body.touching.down) {
-   } else {
-    //  this.player.frame = this.frame;
-   }
  },
 
  setPlayerUpMotion: function() {
@@ -237,32 +241,163 @@ KodingGame.gameState.prototype = {
   },
 
   collect: function(player, star){
-    this.score += 10;
+    var bonusText = this.announcementText("Bonus points: +5!!", "#F5F10D")
     this.starsCount++;
-    document.getElementById("score").innerHTML = this.score
-    document.getElementById("starsCount").innerHTML = this.starsCount
+    this.score += 5
+    this.updateGameStat();
+    setTimeout(this.killObject, 2000, bonusText);
     star.kill();
     this.soundEffects.play('spell');
   },
 
-  askQuestion: function(player, question) {
-    question.animations.stop();
-    question.kill();
-    this.soundEffects.play('fireball');
+  updateGameStat: function() {
+    document.getElementById("score").innerHTML = this.score
+    document.getElementById("starsCount").innerHTML = this.starsCount
+  },
+
+  askQuestion: function(player, bug) {
+    if (!this.displayedQuestion.alive) {
+      var questionToAsk = this.getQuestion();
+      this.displayedQuestion = game.add.text(bug.position.x + bug.body.width, bug.position.y,  questionToAsk, { font: '10px sans-serif', fill: '#444', backgroundColor: '#eee', boundsAlignH: 'left', width: '200', wordWrap: 'true', wordWrapWidth: '195' });
+      this.displayedQuestion.position.y -= this.displayedQuestion.height;
+      this.displayedQuestion.padding.set(10, 16)
+      this.appendOptions(this);
+      this.soundEffects.play('fireball');
+      this.currentBug = bug;
+      this.hideAnswerSummary();
+    }
+  },
+
+  getQuestion: function() {
+    var index = this.nextQuestionIndex();
+    var content = data[index].content
+    content += "\n";
+    data[index].symptoms.forEach(function(symptom) {
+      content += symptom + ", "
+    })
+    content += "\n" + data[index].question
+    this.storeIndex(index);
+    return content;
+  },
+
+  storeIndex: function(index) {
+    this.currQuestionIndex = index;
+    this.askedQuestions.push(index);
+  },
+
+  appendOptions: function() {
+    var currX = this.displayedQuestion.position.x
+    var currY = this.displayedQuestion.position.y + this.displayedQuestion.height
+    var index = this.currQuestionIndex;
+    var option, text;
+     for (var key in data[index].options) {
+      text = data[index].options[key];
+      option = game.add.text(currX, currY,  `\n ${key}) ` + text, { font: '10px sans-serif', fill: '#00ff00', backgroundColor: 'rgba(0,0,0,0.8)', width: '200', boundsAlignH: 'left', wordWrap: 'true', wordWrapWidth: '200', boundsAlignV: 'middle' });
+      option.inputEnabled = true;
+      option.name = text;
+      option.events.onInputOver.add(this.mouseOver, this);
+      option.events.onInputOut.add(this.mouseOut, this);
+      option.events.onInputDown.add(this.clickAnswer, this);
+
+      option.padding.set(10, 0)
+      this.options.push(option)
+      currY += option.height;
+    }
+    this.correctAnswer = data[index].answer;
 
   },
 
-  showHelpText: function() {
-    document.getElementById("gameInfo").innerHTML = "Welcome, we'd have to think of a help to show the user as this point, but displaying it might be a problem? <br /> <p>But you can display them over the top using positioning and z-index and control them just as you would any web page.</p>";
+  showAnswerSummary: function(disease, summary, rightAnswer) {
+    var title = rightAnswer ? `<h3>Corect Answer: ${disease}</h3>` : `<h3>The answer was: ${disease}</h3>`
+    if (summary) {
+      this.appendToDiv(`${title}<p>${summary || "Loading summary..."}</p>`)
+    } else {
+      var that = this;
+      wikipedia(disease, function(status, data){
+        that.appendToDiv(`${title}<p>${data || "Loading summary..."}</p>`)
+      });
+    }
+  },
 
+  appendToDiv: function(text) {
+    document.getElementById("gameInfo").innerHTML = text
     el = document.getElementsByClassName("game-board")[0];
     el.className = el.className.replace("hide", "")
+  },
+
+  hideAnswerSummary: function() {
+    el = document.getElementsByClassName("game-board")[0];
+    el.className = el.className.replace("hide", "")
+    el.className += " hide"
   },
 
   unpause: function(){
     if (game.paused) {
       game.paused = false;
     }
+  },
+
+  mouseOut: function(text){
+    text.fill = '#00ff00';
+  },
+
+  mouseOver: function(text) {
+    text.fill = '#ff00ff';
+  },
+
+  clickAnswer: function(text) {
+    var index = this.currQuestionIndex;
+    console.log(text.name);
+    console.log(this.correctAnswer);
+    var responseText, color;
+    var correct = text.name === this.correctAnswer;
+    if (correct) {
+      responseText = "Correct!! +10 Points", color = '#00ff00';
+      this.score += 10
+      this.updateGameStat();
+    } else {
+      responseText = "Wrong Answer! Try again", color = '#ff0000';
+      game.state.start(gameStates.over)
+    }
+    this.showAnswerSummary(this.correctAnswer, data[index].answer_summary, correct);
+    userCorrect = this.announcementText(responseText, color)
+    setTimeout(this.killObject, 2000, userCorrect);
+
+    this.displayedQuestion.kill();
+    this.currentBug.kill();
+    this.options.forEach(function(option){
+      option.kill();
+    })
+    this.correctAnswer = "";
+    this.displayedQuestion = {}
+  },
+
+  killObject: function(object) {
+    object.kill();
+  },
+
+  nextQuestionIndex: function(){
+    var limit = this.dataMap.length;
+    var index = parseInt(Math.random() * limit);
+    while (this.askedQuestions.indexOf(index) != -1) {
+      index = parseInt(Math.random() * limit);
+    }
+    return index;
+  },
+
+  initVars: function() {
+    this.frame = 0;
+    this.score = 0;
+    this.starsCount = 0;
+    this.correctAnswer = "";
+    this.options = [];
+    this.displayedQuestion = {};
+    this.currentBug = {};
+    this.askedQuestions = [];
+  },
+
+  announcementText: function(responseText, color) {
+    return game.add.text((game.width /2) - 100, game.height / 2, responseText, { font: '30px sans-serif', fill: color, backgroundColor: 'rgba(0,0,0,0.8)', width: '200', align: 'center', wordWrap: 'true', wordWrapWidth: '200', boundsAlignV: 'middle' });
   }
 
 }

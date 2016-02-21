@@ -9,6 +9,7 @@ var gameStates = {
   entry: "entryState",
   game: "gameState",
   paused: "pauseState",
+  over: "overState",
   end: "endState"
 }
 
@@ -30,6 +31,7 @@ var assets = {
   door: {name: "door", url: "assets/door.png"},
   firstAidBox: {name: "first_aid_box", url: "assets/first_aid_box.png"},
   youWinText: {name: "you_win_text", url: "assets/you_win.png"},
+  gameOverText: {name: "game_over_text", url: "assets/game_over2.png"},
   soundEffects: {
     name: "game_audio",
     files: [
