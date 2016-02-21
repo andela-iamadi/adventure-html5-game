@@ -214,6 +214,7 @@ KodingGame.gameState.prototype = {
 
  findObjectsByType: function(spriteType, map, layer) {
    var result = new Array();
+   debugger;
    map.objects[layer].forEach(function(element){
      if(element.properties.sprite === spriteType) {
        element.y -= map.tileHeight;

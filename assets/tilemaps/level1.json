@@ -255,7 +255,7 @@
                  "name":"",
                  "properties":
                     {
-
+                     "position":"playerStart"
                     },
                  "rotation":0,
                  "type":"",
