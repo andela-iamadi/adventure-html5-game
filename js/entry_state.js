@@ -7,9 +7,6 @@ KodingGame.entryState = function(game){
 
 KodingGame.entryState.prototype = {
   preload: function(){
-    game.load.image(assets.entryBackground.name, assets.entryBackground.url)
-    game.load.image(assets.startButton.name, assets.startButton.url)
-    game.load.spritesheet(assets.player.name, assets.player.url, 31, 60);
 
   },
 

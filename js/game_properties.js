@@ -6,6 +6,8 @@ var gameProperties = {
 }
 
 var gameStates = {
+  boot: "bootState",
+  preload: "preloadState",
   entry: "entryState",
   game: "gameState",
   paused: "pauseState",

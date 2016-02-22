@@ -5,9 +5,7 @@ KodingGame.endState = function(game){
 
 KodingGame.endState.prototype = {
   preload: function(){
-    game.load.image(assets.endBackground.name, assets.endBackground.url)
-    game.load.image(assets.startButton.name, assets.startButton.url)
-    game.load.image(assets.youWinText.name, assets.youWinText.url)
+
   },
 
   create: function(){

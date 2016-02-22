@@ -6,10 +6,7 @@ KodingGame.pauseState = function(game){
 
 KodingGame.pauseState.prototype = {
   preload: function(){
-    game.load.image(assets.pauseBackground.name, assets.pauseBackground.url)
-    game.load.image(assets.pauseText.name, assets.pauseText.url)
-    game.load.image(assets.playButton.name, assets.playButton.url)
-    game.load.image(assets.quitButton.name, assets.quitButton.url)
+
   },
 
   create: function(){
