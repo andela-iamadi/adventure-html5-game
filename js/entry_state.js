@@ -13,8 +13,9 @@ KodingGame.entryState.prototype = {
   create: function(){
     this.background = game.add.sprite(0, 0, assets.entryBackground.name, 0)
     this.background.scale.set(0.4, 0.6);
-    game.add.text(game.world.width * 0.05, game.world.height * 0.2, 'Koding Medical Game', { fontSize: '40px', fill: '#444' });
-    this.startButton = game.add.button(game.world.width * 0.3, game.world.height * 0.5, assets.startButton.name,  this.startClickAction, this)
+    var title = game.add.text(game.world.centerX - 60, game.world.height * 0.1, 'MEG',  { fontSize: '50px',  fill: '#F3CF0D', backgroundColor: 'rgba(0,0,0,0.2)', width: '100%', align: 'center', wordWrap: 'true',  boundsAlignV: 'middle' });
+    game.add.text(105, game.world.height * 0.1 + title.height, 'Medical Education Game', { fontSize: '20px', fill: '#000', backgroundColor: 'rgba(0,0,0,0.2)', width: '100%', align: 'center',  boundsAlignV: 'middle' });
+    this.startButton = game.add.button(game.world.width * 0.3, game.world.height * 0.45, assets.startButton.name,  this.startClickAction, this)
 
     //scaling options
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -37,7 +38,7 @@ KodingGame.entryState.prototype = {
   },
 
   initPlayer: function() {
-    this.player = game.add.sprite(5, game.world.centerY + 50, assets.player.name, 24)
+    this.player = game.add.sprite(5, game.world.centerY + 40, assets.player.name, 24)
     game.physics.enable(this.player);
     this.player.scale.set(2.9, 2.9);
     this.player.collideWorldBounds = true;
