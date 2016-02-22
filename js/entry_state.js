@@ -2,6 +2,7 @@ KodingGame.entryState = function(game){
   this.background;
   this.startButton;
   this.player;
+  this.music;
 }
 
 
@@ -34,6 +35,7 @@ KodingGame.entryState.prototype = {
 
   startClickAction: function() {
     // this.background.visible =! this.background.visible
+    this.music.stop();
     game.state.start(gameStates.game)
   },
 
@@ -47,5 +49,11 @@ KodingGame.entryState.prototype = {
     this.player.animations.add('left', [26, 27, 28, 29, 30], 5, true )
     this.player.animations.add('right', [37, 38, 39, 40, 41, 42], 5, true )
     this.player.animations.play('right');
+    this.initAudio();
   },
+
+  initAudio: function() {
+    this.music = game.add.audio(assets.music.name);
+    this.music.play();
+  }
 }

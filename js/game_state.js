@@ -340,11 +340,13 @@ KodingGame.gameState.prototype = {
     var responseText, color;
     var correct = text.name === this.correctAnswer;
     if (correct) {
+      this.soundEffects.play('fireball');
       responseText = "Correct!! +10 Points", color = '#00ff00';
       this.score += 10
       this.updateGameStat();
     } else {
-      responseText = "Wrong Answer! Try again", color = '#ff0000';
+      this.music.stop();
+      this.soundEffects.stop();
       game.state.start(gameStates.over)
     }
     this.showAnswerSummary(this.correctAnswer, data[index].answer_summary, correct);
